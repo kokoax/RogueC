@@ -1,6 +1,6 @@
 CFLAGS 	= -c -O2 -Wall
 OBJECT 	= rogue_main.o rogue_map.o rogue_draw.o\
-	  rogue_action.o achive.o
+	  rogue_action.o archive.o
 RM	= rm 
 
 #First_Run
@@ -20,8 +20,8 @@ rogue_draw.o : rogue_header.h rogue_draw.c
 rogue_action.o : rogue_header.h rogue_action.c
 	gcc $(CFLAGS) rogue_action.c
 
-achive.o : rogue_header.h achive.c
-	gcc $(CFLAGS) achive.c
+archive.o : rogue_header.h archive.c
+	gcc $(CFLAGS) archive.c
 
 
 #Command

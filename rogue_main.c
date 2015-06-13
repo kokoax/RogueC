@@ -3,6 +3,7 @@
 int main(void){
 	char data = 0;
 	char cmd[16] = {0};
+  char map[MAP_HIGH][MAP_WID] = { 0 };
 	MAPCTL *mapctl;
 	CREATURE player;
 
@@ -13,26 +14,23 @@ int main(void){
 	//system("clear");
 	printf( "\033[2J" );
 
-	init_map( mapctl->map );
-	mapper( mapctl, &player );
-	map_viewer( mapctl->map );
+	init_map( map );
+	mapper( mapctl, &player, map );
+  map_writer( mapctl, map );
+	map_viewer( map );
+  printf( "\033[%d;%dH", player.y+1, (player.x+1)*2 );
+  printf( "%c", '@' );
+
 	while(1){
 		while(1){
 									
 			while(1){
 				//system("cls");
 				//printf( "\033[2J" );
-				mapctl->map[player.y][player.x] = '.';
-				printf( "\033[%d;%dH", player.y+1, (player.x+1)*2 );
-				printf( "%c", '.' );
-
-				action_command( data, &player );
-
-				mapctl->map[player.y][player.x] = '@';
-				printf( "\033[%d;%dH", player.y+1, (player.x+1)*2 );
-				printf( "%c", '@' );
-
-				
+        if( data == 0x41 || data == 0x42 || data == 0x43 || data == 0x44 ){
+          action_command( data, &player, map );
+        }
+								
 				//map_viewer( mapctl->map );
 				
 				data = mygetch();

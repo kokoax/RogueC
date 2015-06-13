@@ -1,17 +1,12 @@
 #include "rogue_header.h"
 
-MAPCTL *mapctl_alloc( MAPCTL *mapctl ){
-
-	MAPCTL *NewCtl = mapctl;
-	
-	NewCtl->x      = 0;
-	NewCtl->y      = 0;
-	NewCtl->size_x = 0;
-	NewCtl->size_y = 0;
-	NewCtl->Bwid   = 0;
-	NewCtl->Bhigh  = 0;
-	
-	return NewCtl;
+void mapctl_alloc( MAPCTL * mapctl ){
+  mapctl->size_x = 0;
+  mapctl->size_y = 0;
+  mapctl->x = 0;
+  mapctl->y = 0;
+  mapctl->Bwid = 0;
+  mapctl->Bhigh = 0;
 }
 
 MAPCTL *init_mapctl( void ){
@@ -39,15 +34,13 @@ void free_mapctl( MAPCTL *mapctl ){
 	return;
 }
 
-void mapper( MAPCTL *mapctl, CREATURE *player ){
-	int cmd = rand() % 1;
+void mapper( MAPCTL *mapctl, CREATURE *player, char map[MAP_HIGH][MAP_WID] ){
+	int cmd = rand() % MAP_CREATE_WAY;
 	
 	if(cmd == 0){
 		create_map_first( mapctl );
-		write_map( mapctl );
-		create_root_first( mapctl );
+	  create_root_first( mapctl, map );
 		player_put(mapctl, &(*player));
-		
 	}
 	return;
 }
@@ -58,22 +51,28 @@ void create_map_first( MAPCTL *mapctl ){
 	int i, j, k, l;
 	
 	for(i = 0; i < MAX_MAPNUM; i++){
-		mapctl = mapctl_alloc(mapctl);
-		mapctl->size_x 	= ( rand() % ( block_wid -5 ) )			 +3;	//9分割した部屋のwidのサイズ
-		mapctl->size_y 	= ( rand() % ( block_hig -5 ) )			 +3;	//highのサイズ
-		mapctl->x 	= ( rand() % ( block_wid-1 - mapctl->size_x-1 ) ) +1;	//分割されたブロック内の
-		mapctl->y 	= ( rand() % ( block_hig-1 - mapctl->size_y-1 ) ) +1;	//部屋の座標
-		mapctl->Bwid	= block_wid * (i%3);
-		mapctl->Bhigh	= block_hig * (i/3);
+		//mapctl_alloc( &mapctl[i] );
+		mapctl[i].size_x 	= ( rand() % ( block_wid -5 ) ) +3;	//9分割した部屋のwidのサイズ
+		mapctl[i].size_y 	= ( rand() % ( block_hig -5 ) ) +3;	//highのサイズ
+		mapctl[i].x     	= ( rand() % ( block_wid-1 - mapctl->size_x-1 ) ) +1;	//分割されたブロック内の
+		mapctl[i].y 	    = ( rand() % ( block_hig-1 - mapctl->size_y-1 ) ) +1;	//部屋の座標
+		mapctl[i].Bwid	  = block_wid * (i%3);
+		mapctl[i].Bhigh 	= block_hig * (i/3);
 		//printf("X:%d Y:%d\nsizeX:%d sizeY:%d\n", mapctl->x, mapctl->y, mapctl->size_x, mapctl->size_y);
 		//printf("Bwid:%d Bhigh:%d\n", mapctl->Bwid, mapctl->Bhigh);
-		mapctl++;
+		//mapctl++;
 	}
 	//printf("\n\\n\n");
+  /* check mapctl of value 
+  for( i = 0; i < MAX_MAPNUM; i++ ){
+    printf( " %d %d %d\n", i, mapctl->x, mapctl->y );
+    mapctl++;
+  }
+  */
 	return;
 }
 
-void create_root_first( MAPCTL *mapctl ){
+void create_root_first( MAPCTL *mapctl, char map[MAP_HIGH][MAP_WID] ){
 	int i, j, k, tmp;
 	int x, y, length;
 	int MaxY, MaxX;
@@ -89,7 +88,7 @@ void create_root_first( MAPCTL *mapctl ){
 			length = block_wid-(mapctl->x + mapctl->size_x);
 			//printf("MX:%d MSX:%d ", mapctl->x, mapctl->size_x);
 			//printf("block:%d X:%d Y:%d Len:%d\n", block_wid*j, x, MaxY, length);
-			line_wide( x, MaxY, length, mapctl->map );
+			line_wide( x, MaxY, length, map );
 			
 			mapctl++;
 			
@@ -98,7 +97,7 @@ void create_root_first( MAPCTL *mapctl ){
 			length = mapctl->x;
 			//printf("MX:%d MSX:%d ", mapctl->x, mapctl->size_x);
 			//printf("block:%d X:%d Y:%d Len:%d\n", (j+1)*block_wid, x, y, length);
-			line_wide( x, y, length, mapctl->map );
+			line_wide( x, y, length, map );
 			
 			if(y > MaxY){
 				tmp = MaxY;
@@ -107,7 +106,7 @@ void create_root_first( MAPCTL *mapctl ){
 			}
 			
 			for(k = y; k <= MaxY; k++){
-				mapctl->map[k][mapctl->Bwid] = '.';
+				map[k][mapctl->Bwid] = '.';
 			}
 			
 		}
@@ -125,7 +124,7 @@ void create_root_first( MAPCTL *mapctl ){
 			length = block_hig-(mapctl->y + mapctl->size_y);
 			//printf("MX:%d MSX:%d ", mapctl->y, mapctl->size_y);
 			//printf("block:%d X:%d Y:%d Len:%d\n", block_wid*j, x, MaxY, length);
-			line_narrow( MaxX, y, length, mapctl->map );
+			line_narrow( MaxX, y, length, map );
 			
 			mapctl += 3;
 			
@@ -134,7 +133,7 @@ void create_root_first( MAPCTL *mapctl ){
 			length = mapctl->y;
 			//printf("MX:%d MSX:%d ", mapctl->y, mapctl->size_y);
 			//printf("block:%d X:%d Y:%d Len:%d\n", (j+1)*block_wid, x, y, length);
-			line_narrow( x, y, length, mapctl->map );
+			line_narrow( x, y, length, map );
 			
 			if(x > MaxX){
 				tmp = MaxX;
@@ -143,7 +142,7 @@ void create_root_first( MAPCTL *mapctl ){
 			}
 			
 			for(k = x; k <= MaxX; k++){
-				mapctl->map[mapctl->Bhigh][k] = '.';
+				map[mapctl->Bhigh][k] = '.';
 			}
 			
 		}
