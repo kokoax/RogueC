@@ -20,7 +20,7 @@ rogue_draw.o : rogue_header.h rogue_draw.c
 rogue_action.o : rogue_header.h rogue_action.c
 	gcc $(CFLAGS) rogue_action.c
 
-achive.c : rogue_header.h achive.c
+achive.o : rogue_header.h achive.c
 	gcc $(CFLAGS) achive.c
 
 
