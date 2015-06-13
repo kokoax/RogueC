@@ -27,9 +27,9 @@ achive.c : rogue_header.h achive.c
 #ƒRƒ}ƒ“ƒh
 run : $(OBJECT)
 	gcc $(OBJECT) -o rogue -lm
-	./rogue.exe
+	./rogue
 
 clean : 
 	$(RM) *.o
-	$(RM) *.exe
+	$(RM) rogue
 
