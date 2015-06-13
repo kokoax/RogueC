@@ -1,13 +1,13 @@
 #include "rogue_header.h"
 
 void action_command( char cmd, CREATURE *player ){
-	if( cmd == 0x48 ){			//↑キー
+	if( cmd == 0x41 ){			//Input_Up_Key
 			player->y--;
-	} else if( cmd == 0x4b ){	// ←キー
+	} else if( cmd == 0x44 ){	//Input_Left_Key
 			player->x--;
-	}else if( cmd == 0x4d ){	//→キー
+	}else if( cmd == 0x43 ){	//Input_Right_Key
 			player->x++;
-	} else if( cmd == 0x50 ){	//↓キー
+	} else if( cmd == 0x42 ){	//Input_Down_Key
 			player->y++;
 	}
 	

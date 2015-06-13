@@ -22,17 +22,17 @@ int main(void){
 			while(1){
 				//system("cls");
 				//printf( "\033[2J" );
-
 				mapctl->map[player.y][player.x] = '.';
-				printf( "\033[%d:%dH", player.y+1, (player.x+1)*2 );
+				printf( "\033[%d;%dH", player.y+1, (player.x+1)*2 );
 				printf( "%c", '.' );
 
 				action_command( data, &player );
 
 				mapctl->map[player.y][player.x] = '@';
-				printf( "\033[%d:%dH", player.y+1, (player.x+1)*2 );
+				printf( "\033[%d;%dH", player.y+1, (player.x+1)*2 );
 				printf( "%c", '@' );
 
+				
 				//map_viewer( mapctl->map );
 				
 				data = mygetch();

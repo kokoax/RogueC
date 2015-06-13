@@ -3,11 +3,11 @@ OBJECT 	= rogue_main.o rogue_map.o rogue_draw.o\
 	  rogue_action.o achive.o
 RM	= rm 
 
-#初期実行
+#First_Run
 default : $(OBJECT)
 	gcc $(OBJECT) -o rogue -lm
 
-#ファイル生成規則
+#File_Create
 rogue_main.o : rogue_header.h rogue_main.c
 	gcc $(CFLAGS) rogue_main.c
    
@@ -24,7 +24,7 @@ achive.o : rogue_header.h achive.c
 	gcc $(CFLAGS) achive.c
 
 
-#コマンド
+#Command
 run : $(OBJECT)
 	gcc $(OBJECT) -o rogue -lm
 	./rogue
