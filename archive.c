@@ -1,6 +1,6 @@
 #include "rogue_header.h"
 
-int mygetch( ) {
+char mygetch( ) {
 	struct termios 	oldt,
 			newt;
 	int ch;

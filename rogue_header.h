@@ -53,5 +53,10 @@ void action_command( char cmd, CREATURE * player, char map[MAP_HIGH][MAP_WID] );
 void map_writer( MAPCTL *mapctl, char map[MAP_HIGH][MAP_WID] );
 void map_viewer( char map[MAP_WID][MAP_HIGH] );
 void player_put( MAPCTL *mapctl, CREATURE *player );
+void put_of_map( char data, CREATURE tmp, char map[MAP_HIGH][MAP_WID] );
+
+/*archive.c*/
+char mygetch( void );
 
 #endif //_ROGUE_HEDDER_
+

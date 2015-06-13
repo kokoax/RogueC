@@ -47,17 +47,17 @@ void mapper( MAPCTL *mapctl, CREATURE *player, char map[MAP_HIGH][MAP_WID] ){
 
 void create_map_first( MAPCTL *mapctl ){
 	int block_wid = MAP_WID/3;
-	int block_hig = MAP_HIGH/3;
-	int i, j, k, l;
+	int block_high = MAP_HIGH/3;
+	int i;
 	
 	for(i = 0; i < MAX_MAPNUM; i++){
 		//mapctl_alloc( &mapctl[i] );
-		mapctl[i].size_x 	= ( rand() % ( block_wid -5 ) ) +3;	//9分割した部屋のwidのサイズ
-		mapctl[i].size_y 	= ( rand() % ( block_hig -5 ) ) +3;	//highのサイズ
-		mapctl[i].x     	= ( rand() % ( block_wid-1 - mapctl->size_x-1 ) ) +1;	//分割されたブロック内の
-		mapctl[i].y 	    = ( rand() % ( block_hig-1 - mapctl->size_y-1 ) ) +1;	//部屋の座標
-		mapctl[i].Bwid	  = block_wid * (i%3);
-		mapctl[i].Bhigh 	= block_hig * (i/3);
+		mapctl[i].size_x 	= ( rand() % ( block_wid  -5 ) ) +3;	//9分割した部屋のwidのサイズ
+		mapctl[i].size_y 	= ( rand() % ( block_high -5 ) ) +3;	//highのサイズ
+		mapctl[i].x     	= ( rand() % ( (block_wid -5+3) - mapctl[i].size_x ) ) +1;	//分割されたブロック内の
+		mapctl[i].y 	    = ( rand() % ( (block_high-5+3) - mapctl[i].size_y ) ) +1;	//部屋の座標
+		mapctl[i].Bwid	  = block_wid  * (i%3);
+		mapctl[i].Bhigh 	= block_high * (i/3);
 		//printf("X:%d Y:%d\nsizeX:%d sizeY:%d\n", mapctl->x, mapctl->y, mapctl->size_x, mapctl->size_y);
 		//printf("Bwid:%d Bhigh:%d\n", mapctl->Bwid, mapctl->Bhigh);
 		//mapctl++;
@@ -153,14 +153,14 @@ void create_root_first( MAPCTL *mapctl, char map[MAP_HIGH][MAP_WID] ){
 }
 
 void line_wide( int StartX, int StartY, int Length, char map[MAP_WID][MAP_HIGH] ){
-	int i, j;
+	int i;
 	for(i = 0; i < Length; i++){
 		map[StartY][StartX+i] = '.';
 	}
 }
 
 void line_narrow( int StartX, int StartY, int Length, char map[MAP_WID][MAP_HIGH] ){
-	int i, j;
+	int i;
 	for(i = 0; i < Length; i++){
 		map[StartY+i][StartX] = '.';
 	}
