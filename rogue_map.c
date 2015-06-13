@@ -40,7 +40,7 @@ void mapper( MAPCTL *mapctl, CREATURE *player, char map[MAP_HIGH][MAP_WID] ){
 	if(cmd == 0){
 		create_map_first( mapctl );
 	  create_root_first( mapctl, map );
-		player_put(mapctl, &(*player));
+    creature_put( mapctl, &(*player) );
 	}
 	return;
 }

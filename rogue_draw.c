@@ -28,8 +28,8 @@ void map_viewer( char map[MAP_WID][MAP_HIGH] ){
 	}
   */
   
-  for(i = 0; i < 30; i++){
-		for(j = 0; j < 30; j++){
+  for(i = 0; i < MAP_HIGH; i++){
+		for(j = 0; j < MAP_WID; j++){
 			printf( "\033[%d;%dH", i+1, (j+1)*2 );
 			printf( "%c", map[i][j] );
 		}
@@ -61,7 +61,7 @@ void map_writer( MAPCTL *mapctl, char map[MAP_HIGH][MAP_WID] ){
 }
 
 
-void player_put( MAPCTL *mapctl, CREATURE *player ){
+void creature_put( MAPCTL *mapctl, CREATURE *player ){
 	int RoomRand = rand()%9;
 	
 	mapctl += RoomRand;

@@ -1,6 +1,7 @@
 #include "rogue_header.h"
 
 int main(void){
+  int i;
 	char data = 0;
 	char cmd[16] = {0};
   char map[MAP_HIGH][MAP_WID];
@@ -19,8 +20,12 @@ int main(void){
   map_writer( mapctl, map );
 	map_viewer( map );
   put_of_map( '@', player, map );
-  //printf( "\033[%d;%dH", player.y, (player.x)*2 );
-  //printf( "%c", '@' );
+  
+  CREATURE monstor[5];
+  for( i = 0; i < 5; i++ ){
+    creature_put( mapctl, &monstor[i] );
+    put_of_map( 'a'+i, monstor[i], map );
+  }
 
   while(1){
     while(1){
@@ -40,6 +45,7 @@ int main(void){
       //printf("%x\n\r", data);
 
       if(data == ':'){
+        printf( "\033[31;0H" );
         printf("Command Mode\n");
         scanf("%s", cmd);
         if( strcmp(cmd, "next") == 0){
