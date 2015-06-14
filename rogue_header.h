@@ -22,6 +22,7 @@
 
 typedef struct creature{
 	int x, y;
+  int hp;
 } CREATURE;
 
 typedef struct mapctl{
